@@ -48,7 +48,7 @@ private uint abbr_thread_id()
 
 public struct log
 {
-	private static void log(LogLevel loglevel, string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	public static void log(LogLevel loglevel, string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
 	{
 		auto st = Clock.currTime();
 		writef("%4s.%02u.%02s.%02s.%02s.%06s T#%02s %s ",
