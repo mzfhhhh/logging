@@ -46,46 +46,30 @@ private uint abbr_thread_id()
 	}
 }
 
-private void log(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(LogLevel loglevel, string fmt, Args args)
+public struct log
 {
-	auto st = Clock.currTime();
-	writef("%4s.%02u.%02s.%02s.%02s.%06s T#%02s %s ",
-		st.year,
-		st.month,
-		st.day,
-		st.hour,
-		st.minute,
-		st.fracSec.usecs,
-		abbr_thread_id(),
-		LOGLEVEL_STR[loglevel]
-		);
-	writef(fmt, args);
-	writefln(" (at %s():%s)", func, line);
-}
+	private static void log(LogLevel loglevel, string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		auto st = Clock.currTime();
+		writef("%4s.%02u.%02s.%02s.%02s.%06s T#%02s %s ",
+			st.year,
+			st.month,
+			st.day,
+			st.hour,
+			st.minute,
+			st.fracSec.usecs,
+			abbr_thread_id(),
+			LOGLEVEL_STR[loglevel]
+			);
+		writef(fmt, args);
+		writefln(" (at %s():%s)", func, line);
+	}
 
-public void error(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
-{
-	log!(m,func,line,Args)(LogLevel.Error, fmt, args);
-}
+	alias error		= log!(LogLevel.Error);
+	alias warning	= log!(LogLevel.Warning);
+	alias info		= log!(LogLevel.Info);
+	alias debg		= log!(LogLevel.Debug);
+	alias trace		= log!(LogLevel.Trace);
 
-public void warning(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
-{
-	log!(m,func,line,Args)(LogLevel.Warning, fmt, args);
-}
-
-public alias warning warn;
-
-public void info(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
-{
-	log!(m,func,line,Args)(LogLevel.Info, fmt, args);
-}
-
-public void debg(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
-{
-	log!(m,func,line,Args)(LogLevel.Debug, fmt, args);
-}
-
-public void trace(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
-{
-	log!(m,func,line,Args)(LogLevel.Trace, fmt, args);
+	alias warn 		= warning;
 }
