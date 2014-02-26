@@ -65,11 +65,30 @@ public struct log
 		writefln(" (at %s():%s)", func, line);
 	}
 
-	alias error		= log!(LogLevel.Error);
-	alias warning	= log!(LogLevel.Warning);
-	alias info		= log!(LogLevel.Info);
-	alias debg		= log!(LogLevel.Debug);
-	alias trace		= log!(LogLevel.Trace);
+	public static void error(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		log!(LogLevel.Error,m,func,line,Args)(fmt, args);
+	}
 
-	alias warn 		= warning;
+	public static void warning(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		log!(LogLevel.Warning,m,func,line,Args)(fmt, args);
+	}
+
+	public alias warning warn;
+
+	public static void info(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		log!(LogLevel.Info,m,func,line,Args)(fmt, args);
+	}
+
+	public static void debg(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		log!(LogLevel.Debug,m,func,line,Args)(fmt, args);
+	}
+
+	public static void trace(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		log!(LogLevel.Trace,m,func,line,Args)(fmt, args);
+	}
 }
