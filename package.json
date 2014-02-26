@@ -1,9 +1,10 @@
 {
 	"name": "logging",
-	"description": "A minimal D application.",
-	"copyright": "Copyright © 2014, ruslan",
-	"authors": ["ruslan"],
+	"description": "simple logging library",
+	"copyright": "Copyright © 2014, Ruslan Mullakhmetov",
+	"authors": ["Ruslan Mullakhmetov"],
 	"targetType" : "library",
-	"dependencies": {
+	"dependencies":
+	{
 	}
 }
