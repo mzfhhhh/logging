@@ -1,0 +1,9 @@
+{
+	"name": "logging",
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2014, ruslan",
+	"authors": ["ruslan"],
+	"targetType" : "library",
+	"dependencies": {
+	}
+}
