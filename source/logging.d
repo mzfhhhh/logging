@@ -3,6 +3,7 @@ module logging;
 
 private import std.datetime;
 private import std.stdio;
+private import std.string;
 
 public enum LogLevel
 {
@@ -13,7 +14,7 @@ public enum LogLevel
 	Trace
 }
 
-private enum string[LogLevel] LOGLEVEL_STR =
+public enum string[LogLevel] LOGLEVEL_STR =
 [
 	LogLevel.Error	: "ERRR",
 	LogLevel.Warning: "WARN",
@@ -46,12 +47,29 @@ private uint abbr_thread_id()
 	}
 }
 
-public struct log
+interface Formatter
 {
-	public static void log(LogLevel loglevel, string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	string format(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id);
+}
+
+class SimpleFormatter : Formatter
+{
+	string format(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id)
 	{
-		auto st = Clock.currTime();
-		writef("%4s.%02u.%02s.%02s.%02s.%06s T#%02s %s ",
+			return "%s %s (at %s():%s)".format(
+			LOGLEVEL_STR[loglevel],
+			msg,
+			func,
+			line
+			);
+	}
+}
+
+class TimedThreadedFormatter : Formatter
+{
+	override string format(LogLevel loglevel, string m, string func, size_t line, SysTime st, string msg, uint thread_id)
+	{
+		return "%4s.%02u.%02s.%02s.%02s.%06s T#%02s %s %s (at %s():%s)".format(
 			st.year,
 			st.month,
 			st.day,
@@ -59,10 +77,27 @@ public struct log
 			st.minute,
 			st.fracSec.usecs,
 			abbr_thread_id(),
-			LOGLEVEL_STR[loglevel]
+			LOGLEVEL_STR[loglevel],
+			msg,
+			func,
+			line
 			);
-		writef(fmt, args);
-		writefln(" (at %s():%s)", func, line);
+	}
+}
+
+public struct log
+{
+	public static void formatter(Formatter f) @property
+	{
+		_formatter = f;
+	}
+
+	public static void log(LogLevel loglevel, string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
+	{
+		auto msg = fmt.format(args);
+
+		msg = _formatter.format(loglevel, m, func, line, Clock.currTime(), msg, abbr_thread_id());
+		writeln(msg);
 	}
 
 	public static void error(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
@@ -90,5 +125,12 @@ public struct log
 	public static void trace(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
 	{
 		log!(LogLevel.Trace,m,func,line,Args)(fmt, args);
+	}
+
+	private static Formatter _formatter;
+
+	shared static this()
+	{
+		_formatter = new TimedThreadedFormatter();
 	}
 }
