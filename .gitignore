@@ -1,2 +1,5 @@
 project.sublime-workspace
 .dub/
+__test__library__
+liblogging.a
+
