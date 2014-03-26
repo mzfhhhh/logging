@@ -3,6 +3,7 @@
 	"description": "simple logging library",
 	"copyright": "Copyright © 2014, Ruslan Mullakhmetov",
 	"authors": ["Ruslan Mullakhmetov"],
+	"license": "MIT",
 	"targetType" : "library",
 	"dependencies":
 	{
