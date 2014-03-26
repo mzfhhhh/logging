@@ -1,10 +1,10 @@
 logging
-=============
-
+---------------------------------------
+***
 Logging library for D. Extandable and configurable. Supports multiple sinks.
 
-Dependency solving and linking to project
-=========================================
+### Dependency solving and linking to project
+
 Currently not uploaded to public dub registry (code.dlang.org), so some workaround is needed.
 
 Use `dub add-local` possibility.
@@ -19,12 +19,13 @@ Should add local reference to logging under ~master branch (may use tags or some
 In dependant project simply add in dub.json under dependencies section
 
 ```json
-"logging" : "~master"
+"dependencies":
+{
+    "logging" : "~master"
+}
 ```
 
-Usage
-=====
-Example usage:
+### Example usage:
 
 ```d
 
