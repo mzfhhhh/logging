@@ -42,7 +42,6 @@ public class SysLogSink : LogSink
 
 		auto priority  = LOGLEVEL_TO_SYSLOG_PRIORITY[loglevel];
 
-		std.stdio.writefln("syslog: %s", msg);
 		.syslog(priority, "%s", fmsg.ptr);
 	}
 
