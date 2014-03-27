@@ -10,7 +10,7 @@ class SimpleFormatter : Formatter
 {
 	string format(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id)
 	{
-			return "%s %s (at %s():%s)".format(
+			return "%s %s @%s:%s".format(
 			LOGLEVEL_STR[loglevel],
 			msg,
 			func,

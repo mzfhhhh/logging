@@ -7,7 +7,7 @@ import logging.formatters;
 
 public class ConsoleLogSink : LogSink
 {
-	public this(Formatter fmt = new SimpleFormatter)
+	public this(Formatter fmt = new ConsoleFormatter)
 	{
 		_formatter = fmt;
 	}
