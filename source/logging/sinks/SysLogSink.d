@@ -2,6 +2,7 @@
 module logging.sinks.SysLogSink;
 
 import std.datetime;
+import std.string;
 import logging.sinks.LogSink;
 import logging.formatters;
 
@@ -42,7 +43,7 @@ public class SysLogSink : LogSink
 
 		auto priority  = LOGLEVEL_TO_SYSLOG_PRIORITY[loglevel];
 
-		.syslog(priority, "%s", fmsg.ptr);
+		.syslog(priority, "%s", toStringz(fmsg));
 	}
 
 	public void formatter(Formatter fmt) @property
