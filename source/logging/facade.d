@@ -45,6 +45,11 @@ public struct log
 		log!(LogLevel.Trace,m,func,line,Args)(fmt, args);
 	}
 
+	public static void trace(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__)()
+	{
+		log!(LogLevel.Trace,m,func,line)("trace");
+	}
+
 	public static void add_sink(LogSink s)
 	{
 		_facade.add_sink(s);
