@@ -5,14 +5,14 @@ import std.datetime;
 import logging.sinks.LogSink;
 import logging.formatters;
 
-public class ConsoleLogSink : LogSink
+public class ConsoleLogSink : LogSinkBase
 {
 	public this(Formatter fmt = new ConsoleFormatter)
 	{
 		_formatter = fmt;
 	}
 
-	public override void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id)
+	public override void _log(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id)
 	{
 		auto fmsg = _formatter.format(loglevel, m, func, line, time, msg, thread_id);
 
