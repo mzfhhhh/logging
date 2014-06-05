@@ -6,7 +6,7 @@ import std.datetime;
 
 interface LogSink
 {
-	void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id);
+	void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, lazy string msg, uint thread_id);
 	void loglevel(LogLevel level) @property;
 }
 
@@ -17,7 +17,7 @@ class LogSinkBase : LogSink
 		_loglevel = level;
 	}
 
-	public final void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id)
+	public final void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, lazy string msg, uint thread_id)
 	{
 		if(loglevel <= _loglevel)
 		{

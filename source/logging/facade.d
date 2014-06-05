@@ -13,9 +13,7 @@ public struct log
 {
 	public static void log(LogLevel loglevel, string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
 	{
-		auto msg = fmt.format(args);
-
-		_facade.log(loglevel, m, func, line, Clock.currTime(), msg, abbr_thread_id());
+		_facade.log(loglevel, m, func, line, Clock.currTime(), fmt.format(args), abbr_thread_id());
 	}
 
 	public static void error(string m = __MODULE__, string func = __FUNCTION__, size_t line = __LINE__, Args...)(string fmt, Args args)
@@ -72,7 +70,7 @@ public struct log
 
 private class FacadeImpl
 {
-	public void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, string msg, uint thread_id)
+	public void log(LogLevel loglevel, string m, string func, size_t line, SysTime time, lazy string msg, uint thread_id)
 	{
 		synchronized(this)
 		{
